@@ -1,42 +1,20 @@
-import React, { useState } from "react";
-import { NativeBaseProvider, Container } from "native-base";
+import React, { useState }from "react";
+import { NativeBaseProvider, Container } from "native-base"; 
 import { View, Text, Button, StyleSheet, Image, TextInput } from 'react-native';
-
-import CustomInput from "./CustomInput";
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import LoginSS from './Components/Login';
-
-const newStyles = StyleSheet.create({
-  baseText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+const hojaDeEstilos = StyleSheet.create({
+  image: {
+    borderRadius: 100,
+    width: 200,
+    height: 200
   },
-  innerText: {
-    color: 'blue', // Cambiado el color a azul
-  },
-  container2: {
-    margin: 5, // Cambiado de "gap" a "margin"
-  },
-  button: {
+  contenedor: {
     flex: 1,
-    alignSelf: 'stretch',
-    marginVertical: 5, // Cambiado de "5" a 5 (número en lugar de cadena)
-    padding: 10, // Cambiado de "10" a 10
-  }
-});
-
-const newStyles2 = StyleSheet.create({
-  Image: {
-    borderRadius: 50, // Cambiado el valor de 100 a 50
-  },
-  container2: {
-    flex: 1,
-    margin: 5, // Cambiado de "gap" a "margin"
-    justifyContent: 'center',
-    alignItems: 'center',
+    gap: 5,
+    justifyContent:'center',
+    alignItems:'center',
   },
   input: {
     height: 40,
@@ -45,93 +23,176 @@ const newStyles2 = StyleSheet.create({
     padding: 10,
     width: '100%',
   },
-  titleText: {
-    fontSize: 24, // Cambiado el tamaño de fuente a 24
-    fontWeight: 'normal', // Cambiado el peso de fuente a normal
+  textoToDo: {
+    fontSize: 40,
+    fontWeight: 'bold',
+  }
+  ,input: {
+    width: '80%',
+    height: 30,
+    margin: 3,
+    padding: 5,
+    borderColor: 'gray', 
+    borderWidth: 2,     
+    borderRadius: 10,
+    textAlign: 'center',
+    backgroundColor: 'lightgreen'
   },
+
   invalidInput: {
-    borderColor: 'red',
+    backgroundColor: 'red',  
   },
+  botones: {
+    backgroundColor: 'red',
+    padding: 20,    
+  },
+  
 });
 
-function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState(""); // Cambiado "name" a "username"
+function InicioScreen({ navigation }) {
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [elBotonEstaDesactivado, setelBotonEstaDesactivado] = useState(true);
 
-  const [isUsernameValid, setIsUsernameValid] = useState(false); // Cambiado "isNameValid" a "isUsernameValid"
+  const [isNameValid, setIsNameValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
 
   const validateFields = () => {
-    const usernameRegex = /^[A-Za-z\s]+$/;
-    const validUsername = usernameRegex.test(username);
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const validName = nameRegex.test(name);
     const validPassword = password.length >= 8;
 
-    setIsUsernameValid(validUsername);
+    setIsNameValid(validName);
     setIsPasswordValid(validPassword);
 
-    setIsButtonEnabled(validUsername && validPassword);
+    setelBotonEstaDesactivado(!(validName && validPassword) || name.trim() === '' || password.trim() === '');
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Image source={{ uri: 'https://www.mexidiom.com/wp-content/uploads/2021/06/palomita-I.jpg' }}
-        style={{ width: 200, height: 200 }} />
-      <Text style={newStyles2.titleText}>
-        My App
-      </Text>
-      <TextInput
-        style={[
-          newStyles2.input,
-          !isUsernameValid && newStyles2.invalidInput,
-        ]}
-        placeholder="Username"
-        keyboardType="text"
-        onChangeText={(text) => {
-          setUsername(text);
-          validateFields();
-        }}
-      />
-      <TextInput
-        style={[
-          newStyles2.input,
-          !isPasswordValid && newStyles2.invalidInput,
-        ]}
-        placeholder="Password"
-        keyboardType="default"
-        secureTextEntry={true}
-        onChangeText={(text) => {
-          setPassword(text);
-          validateFields();
-        }}
-      />
-      <Button
-        title="Login"
-        onPress={() => alert("Logged in")}
-        disabled={!isButtonEnabled}
-      />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'lightblue'}}>
+        <Image source={{uri: 'https://i.pinimg.com/236x/2a/2e/7f/2a2e7f0f60b750dfb36c15c268d0118d.jpg'}}
+              style={hojaDeEstilos.image} />
+        <Text style={hojaDeEstilos.textoToDo}>
+          To Do App
+        </Text>
+        <TextInput style={[hojaDeEstilos.input,!isNameValid && hojaDeEstilos.invalidInput, ]} placeholder="Name" keyboardType="text" onChangeText={(text) => {setName(text); validateFields();}}/>
+        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Password" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
+        <Button style={hojaDeEstilos.botones} title="Ingresar" disabled={!elBotonEstaDesactivado} />
 
-      <View style={newStyles2.container2}>
-        <Button
-          title="Go to Login"
-          onPress={() => navigation.navigate('Login')}
-        />
-        <Button
-          title="Register"
-          onPress={() => navigation.navigate('Register')}
-        />
-        <Button
-          title="Change Password"
-          onPress={() => navigation.navigate('Change')}
-        />
-        <Button
-          title="Forgot Password"
-          onPress={() => navigation.navigate('Forgot')}
-        />
-      </View>
+        <View style={hojaDeEstilos.contenedor}>
+          <Button style={hojaDeEstilos.botones} title="Registrarse"onPress={() => navigation.navigate('Registrarse')}/>
+        </View>
     </View>
   );
 }
 
-// Resto del código sin cambios...
+function RegistrarseScreen({ navigation }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [elBotonEstaDesactivado, setelBotonEstaDesactivado] = useState(false);
+  
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [revisarSiEmailEsValida , setrevisarSiEmailEsValida ] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
 
+  const validateFields = () => {
+    const nameRegex = /^[A-Za-z\s]+$/; 
+    const expresionEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+  
+    const validName = nameRegex.test(name);
+    const emailValido = expresionEmail.test(email);
+    const validPassword = password.length >= 8;
+
+    // Actualizar el estado de isNameValid
+    setIsNameValid(validName);
+    setrevisarSiEmailEsValida (emailValido);
+    setIsPasswordValid(validPassword);
+
+    setelBotonEstaDesactivado(validName && emailValido && validPassword);
+  };
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'lightblue' }}>
+        <Image source={{uri: 'https://i.pinimg.com/236x/2a/2e/7f/2a2e7f0f60b750dfb36c15c268d0118d.jpg'}} style={hojaDeEstilos.image} />
+        <Text style={hojaDeEstilos.textoToDo}>
+          To Do App
+        </Text>
+        <TextInput style={[hojaDeEstilos.input,!isNameValid && hojaDeEstilos.invalidInput,]} placeholder="Name" keyboardType="text" onChangeText={(text) => {setName(text); validateFields();}}/>
+        <TextInput style={[ hojaDeEstilos.input, !revisarSiEmailEsValida  && hojaDeEstilos.invalidInput, ]}placeholder="Type your email" keyboardType="email-address" onChangeText={(text) => {setEmail(text); validateFields();}}/>
+        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Password" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
+        <Button style={hojaDeEstilos.botones} title="Registrarse" disabled={!elBotonEstaDesactivado} />
+      <View style={hojaDeEstilos.contenedor}>
+          <Button style={hojaDeEstilos.botones} title="Cambiar Password"  onPress={() => navigation.navigate('Cambiar')} />
+        </View>
+    </View>
+  );
+}
+
+function OlvidadaScreeen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [elBotonEstaDesactivado, setelBotonEstaDesactivado] = useState(false);
+  const [revisarSiEmailEsValida , setrevisarSiEmailEsValida ] = useState(false);
+  const validateFields = () => {
+    const expresionEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+    const emailValido = expresionEmail.test(email);
+    setrevisarSiEmailEsValida (emailValido);
+    setelBotonEstaDesactivado(emailValido);
+  };
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'lightblue' }}>
+      <Image source={{uri: 'https://i.pinimg.com/236x/2a/2e/7f/2a2e7f0f60b750dfb36c15c268d0118d.jpg'}}
+              style={hojaDeEstilos.image} />
+        <Text style={hojaDeEstilos.textoToDo}>
+          To Do App
+        </Text>
+        <TextInput style={[hojaDeEstilos.input,!revisarSiEmailEsValida  && hojaDeEstilos.invalidInput, ]}placeholder="Ingrese su email" keyboardType="email-address"onChangeText={(text) => {}}/>
+        <Button style={hojaDeEstilos.botones} title="Mandar correo" disabled={!elBotonEstaDesactivado} />
+
+        <Button style={hojaDeEstilos.botones} title="Go to Inicio" onPress={() => navigation.navigate('Inicio')}/>
+    </View>
+  );
+}
+
+function CambiarScreen({ navigation }) {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [elBotonEstaDesactivado, setelBotonEstaDesactivado] = useState(false);
+  const validateFields = () => {
+    const passwordRegex = /^.{8,}$/; // Contraseña de al menos 8 caracteres
+  
+    const isNewPasswordValid = passwordRegex.test(newPassword);
+    const isConfirmPasswordValid = confirmPassword === newPassword;
+  
+    // Habilitar el botón solo si todas las contraseñas son válidas
+    setelBotonEstaDesactivado(isNewPasswordValid && isConfirmPasswordValid);
+  };
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'lightblue' }}>
+      <Image source={{uri: 'https://i.pinimg.com/236x/2a/2e/7f/2a2e7f0f60b750dfb36c15c268d0118d.jpg'}}
+              style={hojaDeEstilos.image} />
+        <Text style={hojaDeEstilos.textoToDo}>
+          To Do App
+        </Text>
+        <TextInput style={hojaDeEstilos.input} placeholder="Type your old pass" secureTextEntry={true} />
+        <TextInput style={hojaDeEstilos.input} placeholder="Type your new pass" secureTextEntry={true} onChangeText={(text) => { setNewPassword(text); validateFields(); }}/>
+        <TextInput style={[hojaDeEstilos.input, !elBotonEstaDesactivado && hojaDeEstilos.invalidInput, ]} placeholder="Repita la contraseña" secureTextEntry={true} onChangeText={(text) => {setConfirmPassword(text); validateFields(); }}/>
+        <Button style={hojaDeEstilos.botones} title="Confirmar" disabled={!elBotonEstaDesactivado}  />
+        <Button style={hojaDeEstilos.botones} title="Olvidada Password" onPress={() => navigation.navigate('Olvidada')} />
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Inicio" component={InicioScreen} options={{ title: 'Inicio' }}/>
+        <Stack.Screen name="Registrarse" component={RegistrarseScreen} options={{ title: 'Registrarse' }}/>
+        <Stack.Screen name="Olvidada" component={OlvidadaScreeen} options={{ title: 'Contrasena olvidada' }}/>
+        <Stack.Screen name="Cambiar" component={CambiarScreen} options={{ title: 'Cambiar contrasena' }}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
