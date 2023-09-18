@@ -28,7 +28,7 @@ const hojaDeEstilos = StyleSheet.create({
     fontWeight: 'bold',
   }
   ,input: {
-    width: '80%',
+    width: '50%',
     height: 30,
     margin: 3,
     padding: 5,
@@ -75,8 +75,8 @@ function InicioScreen({ navigation }) {
         <Text style={hojaDeEstilos.textoToDo}>
           To Do App
         </Text>
-        <TextInput style={[hojaDeEstilos.input,!isNameValid && hojaDeEstilos.invalidInput, ]} placeholder="Name" keyboardType="text" onChangeText={(text) => {setName(text); validateFields();}}/>
-        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Password" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
+        <TextInput style={[hojaDeEstilos.input,!isNameValid && hojaDeEstilos.invalidInput, ]} placeholder="Ingrese su nombre" keyboardType="text" onChangeText={(text) => {setName(text); validateFields();}}/>
+        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Contrasena" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
         <Button style={hojaDeEstilos.botones} title="Ingresar" disabled={!elBotonEstaDesactivado} />
 
         <View style={hojaDeEstilos.contenedor}>
@@ -118,11 +118,11 @@ function RegistrarseScreen({ navigation }) {
           To Do App
         </Text>
         <TextInput style={[hojaDeEstilos.input,!isNameValid && hojaDeEstilos.invalidInput,]} placeholder="Name" keyboardType="text" onChangeText={(text) => {setName(text); validateFields();}}/>
-        <TextInput style={[ hojaDeEstilos.input, !revisarSiEmailEsValida  && hojaDeEstilos.invalidInput, ]}placeholder="Type your email" keyboardType="email-address" onChangeText={(text) => {setEmail(text); validateFields();}}/>
-        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Password" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
+        <TextInput style={[ hojaDeEstilos.input, !revisarSiEmailEsValida  && hojaDeEstilos.invalidInput, ]}placeholder="Ingrese su correo" keyboardType="email-address" onChangeText={(text) => {setEmail(text); validateFields();}}/>
+        <TextInput style={[hojaDeEstilos.input,!isPasswordValid && hojaDeEstilos.invalidInput, ]} placeholder="Contrasena" keyboardType="default" secureTextEntry={true} onChangeText={(text) => { setPassword(text); validateFields();}}/>
         <Button style={hojaDeEstilos.botones} title="Registrarse" disabled={!elBotonEstaDesactivado} />
       <View style={hojaDeEstilos.contenedor}>
-          <Button style={hojaDeEstilos.botones} title="Cambiar Password"  onPress={() => navigation.navigate('Cambiar')} />
+          <Button style={hojaDeEstilos.botones} title="Cambiar contrasena"  onPress={() => navigation.navigate('Cambiar')} />
         </View>
     </View>
   );
@@ -173,11 +173,11 @@ function CambiarScreen({ navigation }) {
         <Text style={hojaDeEstilos.textoToDo}>
           To Do App
         </Text>
-        <TextInput style={hojaDeEstilos.input} placeholder="Type your old pass" secureTextEntry={true} />
-        <TextInput style={hojaDeEstilos.input} placeholder="Type your new pass" secureTextEntry={true} onChangeText={(text) => { setNewPassword(text); validateFields(); }}/>
+        <TextInput style={hojaDeEstilos.input} placeholder="Contrasena anterior" secureTextEntry={true} />
+        <TextInput style={hojaDeEstilos.input} placeholder="Nueva contrasena" secureTextEntry={true} onChangeText={(text) => { setNewPassword(text); validateFields(); }}/>
         <TextInput style={[hojaDeEstilos.input, !elBotonEstaDesactivado && hojaDeEstilos.invalidInput, ]} placeholder="Repita la contraseña" secureTextEntry={true} onChangeText={(text) => {setConfirmPassword(text); validateFields(); }}/>
         <Button style={hojaDeEstilos.botones} title="Confirmar" disabled={!elBotonEstaDesactivado}  />
-        <Button style={hojaDeEstilos.botones} title="Olvidada Password" onPress={() => navigation.navigate('Olvidada')} />
+        <Button style={hojaDeEstilos.botones} title="Contrasena olvidada" onPress={() => navigation.navigate('Olvidada')} />
     </View>
   );
 }
